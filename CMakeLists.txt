@@ -56,9 +56,10 @@ FetchContent_MakeAvailable(pugg json)
 FetchContent_Populate(plugin)
 
 include_directories(${plugin_SOURCE_DIR}/src)
-include_directories(/opt/homebrew/Cellar/espeak/1.48.04_1/share/doc)
-link_directories(/opt/homebrew/Cellar/espeak/1.48.04_1/lib)
-
+if(APPLE)
+  include_directories(/opt/homebrew/Cellar/espeak/1.48.04_1/share/doc)
+  link_directories(/opt/homebrew/Cellar/espeak/1.48.04_1/lib)
+endif()
 
 # MACROS #######################################################################
 # Call: add_plugin(name [SRCS src1 src2 ...] [LIBS lib1 lib2 ...])
@@ -97,8 +98,7 @@ else()
 endif()
 include_directories(${json_SOURCE_DIR}/include)
 
-# These plugins are always build and use for testing
-add_plugin(say LIBS libespeak.a)
+add_plugin(say LIBS espeak)
 
 
 # INSTALL ######################################################################
