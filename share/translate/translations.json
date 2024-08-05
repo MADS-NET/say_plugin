@@ -1,0 +1,27 @@
+{
+  "hello world": {
+    "en": "Hello, world!",
+    "it": "Ciao, mondo!",
+    "fr": "Bonjour le monde!"
+  },
+  "start recording": {
+    "en": "Start recording",
+    "it": "Inizia registrazione",
+    "fr": "Commencer l'enregistrement"
+  },
+  "stop recording": {
+    "en": "Stop recording",
+    "it": "Ferma registrazione",
+    "fr": "Arrêter l'enregistrement"
+  },
+  "mark inserted": {
+    "en": "Mark inserted",
+    "it": "Marker inserito",
+    "fr": "Marquer inséré"
+  },
+  "restart requested": {
+    "en": "Restart requested",
+    "it": "Riavvio richiesto",
+    "fr": "Redémarrage demandé"
+  }
+ }

@@ -20,6 +20,7 @@
 // other includes as needed here
 #include <espeak/speak_lib.h>
 #include <thread>
+#include "i18n.hpp"
 
 // Define the name of the plugin
 #ifndef PLUGIN_NAME
@@ -47,7 +48,7 @@ public:
   // Implement the actual functionality here
   return_type load_data(json const &input, string topic = "") override {
     if (input.contains("tts")) {
-      string tts = input["tts"].get<string>();
+      string tts = _i18n.t(input["tts"].get<string>());
       if (!_silent)
         cerr << "Saying: " << tts << endl;
       espeak_ERROR rc = espeak_Synth(
@@ -74,6 +75,11 @@ public:
     _params["language"] = "europe/it";
     _params["silent"] = true;
     _params.merge_patch(*(json *)params);
+
+    _params["dictionary"] = _params["prefix"].get<string>() + "/share/translate/" + _params["dictionary"].get<string>();
+
+    _i18n.set_locale(_params["locale"]);
+    _i18n.set_translations(_params["dictionary"].get<string>());
 
     _silent = _params["silent"].get<bool>();
 
@@ -103,6 +109,7 @@ public:
 private:
   // Define the fields that are used to store internal resources
   bool _silent;
+  I18n _i18n = I18n();
 };
 
 
@@ -131,7 +138,16 @@ For testing purposes, when directly executing the plugin
 int main(int argc, char const *argv[]) {
   SayPlugin plugin;
   json input, params;
-  string text = "Ciao, mondo!";
+  string text = "mark inserted";
+
+  // Set example values to params
+  params["language"] = "europe/it";
+  params["prefix"] = "share/translate";
+  params["dictionary"] = "translations.json";
+  params["locale"] = "it";
+
+  // Set the parameters
+  plugin.set_params(&params);
 
   if (argc > 1) {
     text.clear();
@@ -139,13 +155,8 @@ int main(int argc, char const *argv[]) {
       text += " ";
       text += argv[i];
     }
+    text = text.substr(1);
   }
-  
-  // Set example values to params
-  params["language"] = "europe/it";
-
-  // Set the parameters
-  plugin.set_params(&params);
 
   input["tts"] = text;
   // Process data

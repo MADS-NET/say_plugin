@@ -118,3 +118,4 @@ else()
     ARCHIVE DESTINATION lib
   )
 endif()
+install(FILES ${CMAKE_CURRENT_LIST_DIR}/share/translate/translations.json DESTINATION share/translate)
