@@ -46,7 +46,7 @@ public:
   }
 
   // Implement the actual functionality here
-  return_type load_data(json const &input, string topic = "") override {
+  return_type load_data(json const &input, string topic = "", vector<unsigned char> const *blob = nullptr) override {
     if (input.contains("tts")) {
       string tts = _i18n.t(input["tts"].get<string>());
       if (!_silent)
@@ -70,11 +70,11 @@ public:
     return return_type::retry;
   }
 
-  void set_params(void const *params) override { 
+  void set_params(const json &params) override { 
     Sink::set_params(params);
     _params["language"] = "europe/it";
     _params["silent"] = true;
-    _params.merge_patch(*(json *)params);
+    _params.merge_patch(params);
 
     _params["dictionary"] = _params["prefix"].get<string>() + "/share/translate/" + _params["dictionary"].get<string>();
 
@@ -147,7 +147,7 @@ int main(int argc, char const *argv[]) {
   params["locale"] = "it";
 
   // Set the parameters
-  plugin.set_params(&params);
+  plugin.set_params(params);
 
   if (argc > 1) {
     text.clear();
