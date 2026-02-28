@@ -4,8 +4,7 @@ This is a Sink plugin for [MADS](https://github.com/MADS-NET/MADS).
 
 This is a sink agent that speaks any string received on in the `"tts"` field in the JSON input message. The plugin uses the `espeak` library to generate the speech.
 
-*Required MADS version: 1.0.1.*
-
+> This plugin has been updated for MADS v2
 
 ## Supported platforms
 
